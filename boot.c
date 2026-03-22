@@ -7,6 +7,7 @@ static void JUMP_To_AppA(void)
   volatile uint32_t app_A_reset_handler_addr = *(volatile uint32_t*)APP_A_RESET_HANDLER_ADDR;
   __disable_irq();
   HAL_DeInit();
+
   __set_MSP(app_A_vector_table_addr);
   SCB->VTOR = APP_A_START_ADDR;
   void (*FuncPtr)() = (void*)app_A_reset_handler_addr;
@@ -269,17 +270,16 @@ static BOOTLOADER_Status_Typedef BOOTLOADER_VerifyFirmware(void)
 {
     METADATA_SecDef_t *metadata = (METADATA_SecDef_t *)METADATA_START_ADDR;
     BOOTLOADER_Status_Typedef status;
-
-    /* Check if size is odd then +1 at last */
-    uint32_t length_word = metadata->Host_sizeAppB / 4;
-    if(metadata->Host_sizeAppB % 4)
-    {
-        length_word++;
-    }
-
+    uint32_t length_word = 0;
     switch (metadata->active_bank)
     {
     case ACTIVE_APP_A:
+        /* Check if size is odd then +1 at last */
+    	length_word = metadata->Host_sizeAppB / 4;
+        if(metadata->Host_sizeAppB % 4)
+        {
+            length_word++;
+        }
         uint32_t crc_newAppB = HAL_CRC_Calculate(&hcrc, (uint32_t*)APP_B_START_ADDR, length_word);
         uint32_t crc_hostB = metadata->Host_crcappB;
         if(crc_hostB == crc_newAppB)
@@ -291,10 +291,20 @@ static BOOTLOADER_Status_Typedef BOOTLOADER_VerifyFirmware(void)
             }
             mPrintf("New firmware available!\nPress reset to update\n");  
         }
+        else
+        {
+        	return BOOTLOADER_VERIFY_CRC_FAIL;
+        }
     break;
     
 
     case ACTIVE_APP_B:
+        /* Check if size is odd then +1 at last */
+        length_word = metadata->Host_sizeAppA / 4;
+        if(metadata->Host_sizeAppA % 4)
+        {
+            length_word++;
+        }
         uint32_t crc_newAppA = HAL_CRC_Calculate(&hcrc, (uint32_t*)APP_A_START_ADDR, length_word);
         uint32_t crc_hostA = metadata->Host_crcappA;
         if(crc_hostA == crc_newAppA)
@@ -305,6 +315,10 @@ static BOOTLOADER_Status_Typedef BOOTLOADER_VerifyFirmware(void)
                 return status;
             }
             mPrintf("New firmware available!\nPress reset to update\n"); 
+        }
+        else
+        {
+        	return BOOTLOADER_VERIFY_CRC_FAIL;
         }
     break;
 
@@ -415,7 +429,7 @@ static BOOTLOADER_Status_Typedef BOOTLOADER_ReceiveFirmware(void)
     metadata_status = BOOTLOADER_VerifyFirmware();
     if(metadata_status != BOOTLOADER_OK)
     {
-        return BOOTLOADER_VERIFY_CRC_FAIL;
+        return metadata_status;
     }
 
     return BOOTLOADER_OK;
@@ -514,8 +528,9 @@ void BOOTLOADER_Init(void)
                 mPrintf("CRC_Host: %d\n", metadata_cfg->Host_crcappB);
                 mPrintf("Real_appB_CRC: %d\n", crc_newAppB);
                 BOOTLOADER_SetActiveBank(ACTIVE_APP_B);
-                HAL_Delay(10);
+                HAL_Delay(100);
                 BOOTLOADER_PendingFlag(0);
+                HAL_Delay(100);
                 mPrintf("New firmware deteced!\nJump to Application B!\n");
                 JUMP_To_AppB();
             }
@@ -540,8 +555,9 @@ void BOOTLOADER_Init(void)
                 mPrintf("Real_appA_CRC: %d\n", crc_newAppA);
 
                 BOOTLOADER_SetActiveBank(ACTIVE_APP_A);
-                HAL_Delay(10);
+                HAL_Delay(100);
                 BOOTLOADER_PendingFlag(0);
+                HAL_Delay(100);
                 mPrintf("New firmware deteced!\nJump to Application A!\n");
                 JUMP_To_AppA();
             }
