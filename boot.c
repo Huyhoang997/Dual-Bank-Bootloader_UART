@@ -1,7 +1,7 @@
 #include "boot.h"
 
 
-void JUMP_To_AppA(void)
+static void JUMP_To_AppA(void)
 {
   volatile uint32_t app_A_vector_table_addr = *(volatile uint32_t*)APP_A_START_ADDR;
   volatile uint32_t app_A_reset_handler_addr = *(volatile uint32_t*)APP_A_RESET_HANDLER_ADDR;
@@ -14,7 +14,7 @@ void JUMP_To_AppA(void)
   FuncPtr();
 }
 
-void JUMP_To_AppB(void)
+static void JUMP_To_AppB(void)
 {
   volatile uint32_t app_B_vector_table_addr = *(volatile uint32_t*)APP_B_START_ADDR;
   volatile uint32_t app_B_reset_handler_addr = *(volatile uint32_t*)APP_B_RESET_HANDLER_ADDR;
@@ -29,7 +29,7 @@ void JUMP_To_AppB(void)
 
 
 /* Set active bank in metadata sector */
-BOOTLOADER_Status_Typedef BOOTLOADER_SetActiveBank(METADATA_SetActive active_bank)
+static BOOTLOADER_Status_Typedef BOOTLOADER_SetActiveBank(METADATA_SetActive active_bank)
 {
 	/* Check if invalid banks */
     if(active_bank < ACTIVE_APP_A || active_bank > ACTIVE_APP_B)
@@ -82,7 +82,7 @@ BOOTLOADER_Status_Typedef BOOTLOADER_SetActiveBank(METADATA_SetActive active_ban
 
 
 /* Set pending bank function */
-BOOTLOADER_Status_Typedef BOOTLOADER_PendingFlag(uint8_t flag)
+static BOOTLOADER_Status_Typedef BOOTLOADER_PendingFlag(uint8_t flag)
 {
 	/* Check if invalid pending flag*/
     if(flag < 0)
@@ -135,7 +135,7 @@ BOOTLOADER_Status_Typedef BOOTLOADER_PendingFlag(uint8_t flag)
 
 
 /* Erase current firmware and roll back to older firmware version */
-BOOTLOADER_Status_Typedef BOOTLOADER_EraseCurrentFirmware(void)
+static BOOTLOADER_Status_Typedef BOOTLOADER_EraseCurrentFirmware(void)
 {
     FLASH_EraseInitTypeDef cfg;
     uint32_t SectorErr = 0;
@@ -173,7 +173,7 @@ BOOTLOADER_Status_Typedef BOOTLOADER_EraseCurrentFirmware(void)
 
 
 /* Receive information frame from host (HEADER | SIZE | CRC | VERSION)*/
-BOOTLOADER_Status_Typedef BOOTLOADER_ReceiveInfoFrame(void)
+static BOOTLOADER_Status_Typedef BOOTLOADER_ReceiveInfoFrame(void)
 {
     uint32_t host_header, host_size, host_crc, host_version;
     uint32_t metadata_backup[6];
@@ -265,7 +265,7 @@ BOOTLOADER_Status_Typedef BOOTLOADER_ReceiveInfoFrame(void)
 
 
 /* Function to verify new firmware by CRC32 and set pending flag */
-BOOTLOADER_Status_Typedef BOOTLOADER_VerifyFirmware(void)
+static BOOTLOADER_Status_Typedef BOOTLOADER_VerifyFirmware(void)
 {
     METADATA_SecDef_t *metadata = (METADATA_SecDef_t *)METADATA_START_ADDR;
     BOOTLOADER_Status_Typedef status;
@@ -318,7 +318,7 @@ BOOTLOADER_Status_Typedef BOOTLOADER_VerifyFirmware(void)
 
 
 /* Function to receive new firmware data and write to new available sector */
-BOOTLOADER_Status_Typedef BOOTLOADER_ReceiveFirmware(void)
+static BOOTLOADER_Status_Typedef BOOTLOADER_ReceiveFirmware(void)
 {
     uint8_t data[128] = {0};
     uint8_t Nboftransfer = 0;
@@ -423,7 +423,7 @@ BOOTLOADER_Status_Typedef BOOTLOADER_ReceiveFirmware(void)
 
 
 /* Receive command function */
-void BOOTLOADER_WaitCmd() 
+static void BOOTLOADER_WaitCmd()
 {
     uint8_t cmd = 0;
     BOOTLOADER_Status_Typedef cmd_status;
@@ -473,7 +473,7 @@ void BOOTLOADER_WaitCmd()
 }
 
 
-void JUMP_To_Boot(void)
+static void JUMP_To_Boot(void)
 {
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
     mPrintf("Enter Bootloader mode!\n");
