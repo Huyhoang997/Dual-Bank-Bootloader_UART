@@ -1,0 +1,10 @@
+../Core/Src/boot.c:4:27:SET_ActiveBANK	96	static
+../Core/Src/boot.c:49:27:SET_PendingFlag	96	static
+../Core/Src/boot.c:94:6:JUMP_To_App_A	24	static,ignoring_inline_asm
+../Core/Src/boot.c:108:6:JUMP_To_App_B	24	static,ignoring_inline_asm
+../Core/Src/boot.c:122:27:BOOTLOADER_EraseCurrentFirmware	80	static
+../Core/Src/boot.c:158:6:BOOTLOADER_ReceiveInfoFrame	96	static
+../Core/Src/boot.c:202:6:BOOTLOADER_ReceiveFirmWare	160	static
+../Core/Src/boot.c:245:6:BOOTLOADER_WaitForCmd	16	static
+../Core/Src/boot.c:279:6:JUMP_To_Boot	8	static
+../Core/Src/boot.c:288:6:BOOTLOADER_InitMode	64	static
