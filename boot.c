@@ -86,7 +86,7 @@ static BOOTLOADER_Status_Typedef BOOTLOADER_SetActiveBank(METADATA_SetActive act
 static BOOTLOADER_Status_Typedef BOOTLOADER_PendingFlag(uint8_t flag)
 {
 	/* Check if invalid pending flag*/
-    if(flag < 0)
+    if(flag < 1)
     {
         return BOOTLOADER_INVALID_PENDING_FLAG;
     }
