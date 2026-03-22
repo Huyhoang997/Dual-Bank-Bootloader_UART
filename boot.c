@@ -86,7 +86,7 @@ static BOOTLOADER_Status_Typedef BOOTLOADER_SetActiveBank(METADATA_SetActive act
 static BOOTLOADER_Status_Typedef BOOTLOADER_PendingFlag(uint8_t flag)
 {
 	/* Check if invalid pending flag*/
-    if(flag < 1)
+    if(flag > 1)
     {
         return BOOTLOADER_INVALID_PENDING_FLAG;
     }
@@ -501,10 +501,6 @@ void BOOTLOADER_Init(void)
 
     METADATA_SecDef_t *metadata_cfg = (METADATA_SecDef_t*)METADATA_START_ADDR;
     uint32_t length = 0;
-    if(metadata_cfg->Host_sizeAppB % 4)
-    {
-        length++;
-    }
     /* Check if enter bootloader mode */
     if(!(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0)))
     {
@@ -516,53 +512,58 @@ void BOOTLOADER_Init(void)
         switch (metadata_cfg->active_bank)
         {
         case ACTIVE_APP_A:
-            if(metadata_cfg->pending_flag == 1)
+            length = metadata_cfg->Host_sizeAppB / 4;
+            if(metadata_cfg->Host_sizeAppB % 4)
             {
-                length = metadata_cfg->Host_sizeAppB / 4;
-                if(metadata_cfg->Host_sizeAppB % 4)
-                {
-                    length++;
-                }
-                uint32_t crc_newAppB = HAL_CRC_Calculate(&hcrc, (uint32_t*)APP_B_START_ADDR, length);
+                length++;
+            }
+            uint32_t crc_newAppB = HAL_CRC_Calculate(&hcrc, (uint32_t*)APP_B_START_ADDR, length);
 
-                mPrintf("CRC_Host: %d\n", metadata_cfg->Host_crcappB);
-                mPrintf("Real_appB_CRC: %d\n", crc_newAppB);
+            mPrintf("CRC_Host: %d\n", metadata_cfg->Host_crcappB);
+            mPrintf("Real_appB_CRC: %d\n", crc_newAppB);
+
+            if(metadata_cfg->pending_flag == 1 && metadata_cfg->Host_crcappB == crc_newAppB)
+            {
+
                 BOOTLOADER_SetActiveBank(ACTIVE_APP_B);
-                HAL_Delay(100);
+                HAL_Delay(10);
                 BOOTLOADER_PendingFlag(0);
-                HAL_Delay(100);
+                HAL_Delay(10);
                 mPrintf("New firmware deteced!\nJump to Application B!\n");
                 JUMP_To_AppB();
             }
             else
             {
+            	mPrintf("CRC mismatch!\n");
                 mPrintf("Current firmware application: %.X\n", metadata_cfg->active_bank);
                 JUMP_To_AppA();
             }
         break;
 
+
         case ACTIVE_APP_B:
-            if(metadata_cfg->pending_flag == 1)
+            length = metadata_cfg->Host_sizeAppA / 4;
+            if(metadata_cfg->Host_sizeAppA % 4)
             {
-                length = metadata_cfg->Host_sizeAppA / 4;
-                if(metadata_cfg->Host_sizeAppA % 4)
-                {
-                    length++;
-                }
-                uint32_t crc_newAppA = HAL_CRC_Calculate(&hcrc, (uint32_t*)APP_A_START_ADDR, length);
-                
-                mPrintf("CRC_Host: %d\n", metadata_cfg->Host_crcappA);
-                mPrintf("Real_appA_CRC: %d\n", crc_newAppA);
+                length++;
+            }
+            uint32_t crc_newAppA = HAL_CRC_Calculate(&hcrc, (uint32_t*)APP_A_START_ADDR, length);
+
+            mPrintf("CRC_Host: %d\n", metadata_cfg->Host_crcappA);
+            mPrintf("Real_appA_CRC: %d\n", crc_newAppA);
+            if(metadata_cfg->pending_flag == 1 && metadata_cfg->Host_crcappA == crc_newAppA)
+            {
 
                 BOOTLOADER_SetActiveBank(ACTIVE_APP_A);
-                HAL_Delay(100);
+                HAL_Delay(10);
                 BOOTLOADER_PendingFlag(0);
-                HAL_Delay(100);
+                HAL_Delay(10);
                 mPrintf("New firmware deteced!\nJump to Application A!\n");
                 JUMP_To_AppA();
             }
             else
             {
+            	mPrintf("CRC mismatch!\n");
                 mPrintf("Current firmware application: %.x\n", metadata_cfg->active_bank);
                 JUMP_To_AppB();
             }
