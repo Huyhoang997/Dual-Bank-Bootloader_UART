@@ -34,40 +34,40 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := F401_Bootlloader_DualBank_Rev00
+BUILD_ARTIFACT_NAME := F401_Bootloader_Dualbank_Rev02
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-F401_Bootlloader_DualBank_Rev00.elf \
+F401_Bootloader_Dualbank_Rev02.elf \
 
 MAP_FILES += \
-F401_Bootlloader_DualBank_Rev00.map \
+F401_Bootloader_Dualbank_Rev02.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-F401_Bootlloader_DualBank_Rev00.list \
+F401_Bootloader_Dualbank_Rev02.list \
 
 OBJCOPY_HEX += \
-F401_Bootlloader_DualBank_Rev00.hex \
+F401_Bootloader_Dualbank_Rev02.hex \
 
 OBJCOPY_BIN += \
-F401_Bootlloader_DualBank_Rev00.bin \
+F401_Bootloader_Dualbank_Rev02.bin \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: F401_Bootlloader_DualBank_Rev00.elf secondary-outputs
+main-build: F401_Bootloader_Dualbank_Rev02.elf secondary-outputs
 
 # Tool invocations
-F401_Bootlloader_DualBank_Rev00.elf F401_Bootlloader_DualBank_Rev00.map: $(OBJS) $(USER_OBJS) C:\Users\ACER\STM32CubeIDE\workspace_1.15.0\F401_Bootlloader_DualBank_Rev00\STM32F401CDUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "F401_Bootlloader_DualBank_Rev00.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\ACER\STM32CubeIDE\workspace_1.15.0\F401_Bootlloader_DualBank_Rev00\STM32F401CDUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="F401_Bootlloader_DualBank_Rev00.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+F401_Bootloader_Dualbank_Rev02.elf F401_Bootloader_Dualbank_Rev02.map: $(OBJS) $(USER_OBJS) C:\Users\ACER\STM32CubeIDE\workspace_1.15.0\F401_Bootloader_Dualbank_Rev02\STM32F401CDUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "F401_Bootloader_Dualbank_Rev02.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\ACER\STM32CubeIDE\workspace_1.15.0\F401_Bootloader_Dualbank_Rev02\STM32F401CDUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="F401_Bootloader_Dualbank_Rev02.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -76,24 +76,24 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-F401_Bootlloader_DualBank_Rev00.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "F401_Bootlloader_DualBank_Rev00.list"
+F401_Bootloader_Dualbank_Rev02.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "F401_Bootloader_Dualbank_Rev02.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-F401_Bootlloader_DualBank_Rev00.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "F401_Bootlloader_DualBank_Rev00.hex"
+F401_Bootloader_Dualbank_Rev02.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "F401_Bootloader_Dualbank_Rev02.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-F401_Bootlloader_DualBank_Rev00.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "F401_Bootlloader_DualBank_Rev00.bin"
+F401_Bootloader_Dualbank_Rev02.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "F401_Bootloader_Dualbank_Rev02.bin"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) F401_Bootlloader_DualBank_Rev00.bin F401_Bootlloader_DualBank_Rev00.elf F401_Bootlloader_DualBank_Rev00.hex F401_Bootlloader_DualBank_Rev00.list F401_Bootlloader_DualBank_Rev00.map default.size.stdout
+	-$(RM) F401_Bootloader_Dualbank_Rev02.bin F401_Bootloader_Dualbank_Rev02.elf F401_Bootloader_Dualbank_Rev02.hex F401_Bootloader_Dualbank_Rev02.list F401_Bootloader_Dualbank_Rev02.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX) $(OBJCOPY_BIN)

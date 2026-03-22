@@ -26,7 +26,7 @@ Core/Src/boot.o: ../Core/Src/boot.c ../Core/Inc/boot.h ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/metadata.h ../Core/Inc/printf_log.h
+ ../Core/Inc/metadata.h ../Core/Inc/print_log.h
 ../Core/Inc/boot.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -57,4 +57,4 @@ Core/Src/boot.o: ../Core/Src/boot.c ../Core/Inc/boot.h ../Core/Inc/main.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/metadata.h:
-../Core/Inc/printf_log.h:
+../Core/Inc/print_log.h:

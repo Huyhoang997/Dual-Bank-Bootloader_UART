@@ -1,7 +1,7 @@
 "./Core/Src/boot.o"
 "./Core/Src/main.o"
 "./Core/Src/metadata.o"
-"./Core/Src/printf_log.o"
+"./Core/Src/print_log.o"
 "./Core/Src/stm32f4xx_hal_msp.o"
 "./Core/Src/stm32f4xx_it.o"
 "./Core/Src/syscalls.o"

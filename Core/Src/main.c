@@ -54,8 +54,8 @@ DMA_HandleTypeDef hdma_usart1_tx;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
-static void MX_USART1_UART_Init(void);
 static void MX_CRC_Init(void);
+static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -95,13 +95,12 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_USART1_UART_Init();
   MX_CRC_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  
-  BOOTLOADER_InitMode();
-  /* USER CODE END 2 */
 
+  /* USER CODE END 2 */
+  BOOTLOADER_Init();
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)

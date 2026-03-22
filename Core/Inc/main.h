@@ -43,14 +43,14 @@ extern "C" {
 /* USER CODE BEGIN EC */
 
 /* USER CODE END EC */
-
-/* Exported macro ------------------------------------------------------------*/
-/* USER CODE BEGIN EM */
 extern CRC_HandleTypeDef hcrc;
 
 extern UART_HandleTypeDef huart1;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern DMA_HandleTypeDef hdma_usart1_tx;
+/* Exported macro ------------------------------------------------------------*/
+/* USER CODE BEGIN EM */
+
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/

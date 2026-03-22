@@ -3,27 +3,27 @@
 
 #include "stdint.h"
 
-typedef struct __attribute__((aligned(4)))
+typedef struct 
 {
-    uint32_t  header;
-    
-    uint32_t size__appA;
-    uint32_t crc_hostappA;
-    uint32_t  versionA;
+    uint32_t header;
 
-    uint32_t size__appB;
-    uint32_t crc_hostappB;
-    uint32_t versionB;
+    uint32_t Host_sizeAppA;
+    uint32_t Host_crcappA;
+    uint32_t Host_versionAppA;
+
+    uint32_t Host_sizeAppB;
+    uint32_t Host_crcappB;
+    uint32_t Host_versionAppB;
 
     uint32_t active_bank;
-    uint32_t pending_bank;
-} METADATA_Sector_t;
+    uint32_t pending_flag;
+} METADATA_SecDef_t;
 
 typedef enum
 {
-    ACTIVE_A = 0xA,
-    ACTIVE_B = 0xB
-} METADATA_SetActiveApp_Typedef;
+    ACTIVE_APP_A = 0xA,
+    ACTIVE_APP_B = 0xB
+} METADATA_SetActive;
 
- 
+#define METADATA_START_ADDR             0x8008000UL
 #endif

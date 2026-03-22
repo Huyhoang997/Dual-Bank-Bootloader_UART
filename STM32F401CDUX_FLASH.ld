@@ -45,8 +45,8 @@ _Min_Stack_Size = 0x400; /* required amount of stack */
 MEMORY
 {
   RAM    (xrw)    : ORIGIN = 0x20000000,   LENGTH = 96K
-  BOOTLOADER  (rx)  : ORIGIN = 0x8000000, LENGTH = 32K
-  METADATA  (rx)  : ORIGIN =0x8008000, LENGTH = 16K
+  BOOTLOADER    (rx)    : ORIGIN = 0x8000000,   LENGTH = 32K
+  METADATA   (rx)  : ORIGIN = 0x8008000, LENGTH = 16k
 }
 
 /* Sections */
@@ -58,7 +58,6 @@ SECTIONS
     KEEP(*(.metadata))
     . = ALIGN(4);
   } >METADATA
-
   
   /* The startup code into "FLASH" Rom type memory */
   .isr_vector :

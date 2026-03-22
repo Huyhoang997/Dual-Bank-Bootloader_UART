@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/ACER/STM32CubeIDE/workspace_1.15.0/F401_Bootlloader_DualBank_Rev00/Core/Src",
-      "program": "c:/Users/ACER/STM32CubeIDE/workspace_1.15.0/F401_Bootlloader_DualBank_Rev00/Core/Src/build/Debug/outDebug",
+      "cwd": "c:/Users/ACER/STM32CubeIDE/workspace_1.15.0/F401_Bootloader_Dualbank_Rev02/Core/Src",
+      "program": "c:/Users/ACER/STM32CubeIDE/workspace_1.15.0/F401_Bootloader_Dualbank_Rev02/Core/Src/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
