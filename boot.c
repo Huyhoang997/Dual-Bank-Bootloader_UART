@@ -373,7 +373,11 @@ static BOOTLOADER_Status_Typedef BOOTLOADER_ReceiveFirmware(void)
             for(uint8_t j = 0; j < 128; j++)
             {
             	/* FLASH write one by one byte to available sector */
-                HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, (uint32_t)(APP_B_START_ADDR + j + (i*128)), data[j]);
+            	status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, (uint32_t)(APP_B_START_ADDR + j + (i*128)), data[j]);
+            }
+            if(status != HAL_OK)
+            {
+                return BOOTLOADER_PROGRAM_ERR;
             }
             /* After received 1 packet = 128byte then send ACK signal */
             mPrintf("ACK\n");
@@ -409,7 +413,11 @@ static BOOTLOADER_Status_Typedef BOOTLOADER_ReceiveFirmware(void)
             for(uint8_t j = 0; j < 128; j++)
             {
             	/* FLASH write one by one byte to available sector */
-                HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, (uint32_t)(APP_A_START_ADDR + j + (i*128)), data[j]);
+            	status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, (uint32_t)(APP_A_START_ADDR + j + (i*128)), data[j]);
+            	if(status != HAL_OK)
+            	{
+            		return BOOTLOADER_PROGRAM_ERR;
+            	}
 
             }
             /* After received 1 packet = 128byte then send ACK signal */
