@@ -101,13 +101,13 @@ Host                         STM32 Bootloader
   │──── CMD_WRITE ───────────────►│
   │──── Info Frame (16 bytes) ───►│
   │                               │ (erase target sector)
-  │◄─── "START\n" ───────────────│
+  │◄─── "START\n" ─────────────── │
   │──── Packet 1 (128 bytes) ────►│
-  │◄─── "ACK\n" ─────────────────│
+  │◄─── "ACK\n" ───────────────── │
   │──── Packet 2 (128 bytes) ────►│
-  │◄─── "ACK\n" ─────────────────│
+  │◄─── "ACK\n" ───────────────── │
   │         ... (repeat)          │
-  │◄─── "DONE\n" ────────────────│
+  │◄─── "DONE\n" ──────────────── │
   │                               │ (CRC verify → set pending_flag=1)
 ```
 
